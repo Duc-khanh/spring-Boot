@@ -1,0 +1,48 @@
+package com.example.springgreetingdemo2.Controller;
+
+
+import com.example.springgreetingdemo2.model.Customer;
+import com.example.springgreetingdemo2.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
+
+@Controller
+public class CustomerController {
+
+    @Autowired
+    private CustomerService customerService;
+
+    @GetMapping("/customers")
+    public ModelAndView showList() {
+
+        List<Customer> customers =
+                customerService.findAll();
+
+        ModelAndView modelAndView =
+                new ModelAndView("list");
+
+        modelAndView.addObject("customers", customers);
+
+        return modelAndView;
+    }
+
+    @GetMapping("/customer")
+    public ModelAndView showInfo(
+            @RequestParam Long id) {
+
+        Customer customer =
+                customerService.findById(id);
+
+        ModelAndView modelAndView =
+                new ModelAndView("info");
+
+        modelAndView.addObject("customer", customer);
+
+        return modelAndView;
+    }
+}
