@@ -14,17 +14,34 @@
 
 <body>
 
-<h2>Customer Information</h2>
-
-<p>ID: ${customer.id}</p>
-
-<p>Name: ${customer.name}</p>
-
-<p>Email: ${customer.email}</p>
-
-<p>Address: ${customer.address}</p>
-
-<a href="customers">Back to list</a>
+<fieldset style="width: 500px">
+    <legend>Customer Information</legend>
+    <form action="/update" method="post">
+        <table>
+            <tr>
+                <td>Id</td>
+                <td><input type="text" name="id" value="${customer.id}" readonly></td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="name" value="${customer.name}"></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="text" name="email" value="${customer.email}"></td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td><input type="text" name="address" value="${customer.address}"></td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit">Update</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</fieldset>
 
 </body>
 </html>

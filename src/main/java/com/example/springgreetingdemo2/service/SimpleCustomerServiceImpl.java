@@ -46,4 +46,12 @@ public class SimpleCustomerServiceImpl implements CustomerService {
         }
         return null;
     }
+
+    @Override
+    public void save(Customer customer) {
+        Customer c = findById(customer.getId());
+        c.setName(customer.getName());
+        c.setEmail(customer.getEmail());
+        c.setAddress(customer.getAddress());
+    }
 }

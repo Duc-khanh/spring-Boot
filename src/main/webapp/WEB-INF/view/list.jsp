@@ -33,32 +33,20 @@
 There are ${customers.size()} customer(s) in list.
 
 <table>
-
     <tr>
-        <th>ID</th>
+        <th>Id</th>
         <th>Name</th>
         <th>Email</th>
         <th>Address</th>
     </tr>
-
-    <c:forEach items="${customers}" var="c">
-
+    <c:forEach var="c" items="${customers}">
         <tr>
             <td>${c.id}</td>
-
-            <td>
-                <a href="customer?id=${c.id}">
-                        ${c.name}
-                </a>
-            </td>
-
+            <td><a href="${c.id}">${c.name}</a></td>
             <td>${c.email}</td>
-
             <td>${c.address}</td>
         </tr>
-
     </c:forEach>
-
 </table>
 
 </body>
