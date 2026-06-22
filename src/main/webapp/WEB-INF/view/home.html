@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NASA Picture Of Day</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        img {
+            max-width: 800px;
+            border-radius: 10px;
+        }
+
+        .comment {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+
+        .comment p {
+            margin: 5px 0;
+        }
+
+        textarea {
+            width: 400px;
+            height: 100px;
+        }
+
+        button {
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+
+        .like-btn {
+            text-decoration: none;
+            background: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .like-btn:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<h1>NASA Picture Of The Day</h1>
+
+<img id="img-of-the-day" alt="NASA Image">
+
+<script>
+
+    let query =
+        'https://api.nasa.gov/planetary/apod?api_key=YOUR_API_KEY';
+
+    let request = new XMLHttpRequest();
+
+    request.open('GET', query);
+
+    request.onload = function () {
+
+        if (request.status === 200) {
+
+            let response = JSON.parse(request.responseText);
+
+            document
+                .getElementById("img-of-the-day")
+                .setAttribute("src", response.url);
+        }
+    }
+
+    request.send();
+
+</script>
+
+<hr>
+
+<h2>Đánh giá ảnh hôm nay</h2>
+
+<form th:action="@{/comment}" method="post">
+
+    <label>Tên tác giả:</label>
+    <br>
+    <input type="text" name="author" required>
+    <br><br>
+
+    <label>Đánh giá:</label>
+    <br>
+    <select name="rating">
+        <option value="1">1 ⭐</option>
+        <option value="2">2 ⭐</option>
+        <option value="3">3 ⭐</option>
+        <option value="4">4 ⭐</option>
+        <option value="5">5 ⭐</option>
+    </select>
+
+    <br><br>
+
+    <label>Nhận xét:</label>
+    <br>
+    <textarea name="comment" required></textarea>
+
+    <br><br>
+
+    <button type="submit">
+        Gửi đánh giá
+    </button>
+
+</form>
+
+<hr>
+
+<h2>Danh sách bình luận hôm nay</h2>
+
+<div th:if="${#lists.isEmpty(comments)}">
+    Chưa có bình luận nào.
+</div>
+
+<div th:each="c : ${comments}" class="comment">
+
+    <h3 th:text="${c.author}"></h3>
+
+    <p>
+        Đánh giá:
+        <strong th:text="${c.rating}"></strong>/5 ⭐
+    </p>
+
+    <p th:text="${c.comment}"></p>
+
+    <p>
+        Likes:
+        <span th:text="${c.likes}"></span>
+    </p>
+
+    <a th:href="@{/like/{id}(id=${c.id})}"
+       class="like-btn">
+        👍 Like
+    </a>
+
+</div>
+
+</body>
+</html>

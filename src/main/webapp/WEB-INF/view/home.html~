@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NASA Picture Of Day</title>
+</head>
+<body>
+
+<h1>NASA Picture Of Day</h1>
+
+<img id="img-of-the-day" width="700">
+
+<script>
+    let query =
+        'https://api.nasa.gov/planetary/apod?api_key=YOUR_API_KEY';
+
+    let request = new XMLHttpRequest();
+
+    request.open('GET', query);
+
+    request.onload = function () {
+        if (request.status === 200) {
+
+            let response = JSON.parse(request.responseText);
+
+            document
+                .getElementById("img-of-the-day")
+                .setAttribute("src", response.url);
+        }
+    }
+
+    request.send();
+</script>
+
+<hr>
+
+<h2>Đánh giá</h2>
+
+<form action="/comment" method="post">
+
+    <label>Tên:</label>
+    <input type="text" name="author">
+
+    <br><br>
+
+    <label>Điểm:</label>
+    <select name="rating">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+    </select>
+
+    <br><br>
+
+    <label>Nhận xét:</label>
+    <br>
+    <textarea name="comment" rows="4" cols="40"></textarea>
+
+    <br><br>
+
+    <button type="submit">
+        Gửi
+    </button>
+
+</form>
+
+<hr>
+
+<h2>Comment hôm nay</h2>
+
+<!--
+    HTML thuần không thể dùng:
+    <c:forEach>
+
+    Nếu dùng Thymeleaf:
+-->
+
+<div th:each="c : ${comments}"
+     style="border:1px solid black;margin:10px;padding:10px">
+
+    <b th:text="${c.author}"></b>
+
+    <p>
+        Rating:
+        <span th:text="${c.rating}"></span>/5
+    </p>
+
+    <p th:text="${c.comment}"></p>
+
+    <p>
+        Likes:
+        <span th:text="${c.likes}"></span>
+    </p>
+
+    <a th:href="@{/like/{id}(id=${c.id})}">
+        Like
+    </a>
+
+</div>
+
+</body>
+</html>

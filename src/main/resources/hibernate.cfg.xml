@@ -29,7 +29,7 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <mapping class="com.example.springgreetingdemo2.model.Customer"/>
+        <mapping class="com.example.springgreetingdemo2.model.Feedback"/>
 
     </session-factory>
 </hibernate-configuration>
