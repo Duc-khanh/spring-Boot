@@ -33,13 +33,13 @@ public class CustomerController {
         return modelAndView;
     }
     @GetMapping("{id}")
-    public ModelAndView showInfo(@PathVariable Long id) {
+    public ModelAndView showInfo(@PathVariable int id) {
         ModelAndView modelAndView = new ModelAndView("info");
         Customer customer = customerService.findById(id);
         modelAndView.addObject("customer", customer);
         return modelAndView;
     }
-    @PostMapping()
+    @PostMapping("/update")
     public String updateCustomer(Customer customer) {
         customerService.save(customer);
         return "redirect:/customers";

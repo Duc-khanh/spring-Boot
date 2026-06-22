@@ -1,8 +1,13 @@
 package com.example.springgreetingdemo2.model;
 
-public class  Customer {
+import javax.persistence.*;
 
-    private Long id;
+@Entity
+@Table(name = "customer")
+public class  Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
     private String email;
     private String address;
@@ -10,18 +15,24 @@ public class  Customer {
     public Customer() {
     }
 
-    public Customer(Long id, String name, String email, String address) {
+    public Customer(int id, String name, String email, String address) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.address = address;
     }
 
-    public Long getId() {
+    public Customer(String name, String email, String address) {
+        this.name = name;
+        this.email = email;
+        this.address = address;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

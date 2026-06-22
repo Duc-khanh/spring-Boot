@@ -1,0 +1,35 @@
+package com.example.springgreetingdemo2.service;
+
+
+
+import com.example.springgreetingdemo2.model.Customer;
+import org.hibernate.SessionFactory;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+@Service
+public class HibernateCustomerService  implements CustomerService {
+    private static SessionFactory sessionFactory;
+    private static Ent
+
+    @Override
+    public List<Customer> findAll() {
+        return null;
+    }
+
+    @Override
+    public Customer findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public void save(Customer customer) {
+
+    }
+
+    @Override
+    public void remove(Long id) {
+
+    }
+}

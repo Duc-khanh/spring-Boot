@@ -9,7 +9,9 @@ public interface CustomerService {
 
     List<Customer> findAll();
 
-    Customer findById(Long id);
-
     void save(Customer customer);
+
+    Customer findById(int id);
+
+    void remove(int id);
 }
