@@ -1,7 +1,5 @@
 package com.example.springgreetingdemo2.DAO;
 
-import com.example.springgreetingdemo2.model.Login;
-import com.example.springgreetingdemo2.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,4 @@ import java.util.List;
             return null;
         }
     }
-
-
-}
 
