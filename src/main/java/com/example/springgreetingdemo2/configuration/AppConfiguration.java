@@ -51,4 +51,6 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         viewResolver.setCharacterEncoding("UTF-8");
         return viewResolver;
     }
+
+
 }

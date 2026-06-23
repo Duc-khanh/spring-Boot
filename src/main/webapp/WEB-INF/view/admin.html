@@ -9,9 +9,11 @@
 <body>
 <h2>Spring Security Example</h2>
 <hr/>
-<h3>User dashboard</h3>
+<h3>Admin dashboard</h3>
 <div sec:authorize="isAuthenticated()">
-    <b>Welcome!<span sec:authentication="principal.username"></span></b>
+    <b>Welcome!
+        <div sec:authentication="principal.username"></div>
+    </b>
 </div>
 <br/>
 <div sec:authorize="isAuthenticated()">

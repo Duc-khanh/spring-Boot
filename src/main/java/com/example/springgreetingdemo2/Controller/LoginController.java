@@ -1,34 +1,34 @@
 package com.example.springgreetingdemo2.Controller;
 
-import com.example.springgreetingdemo2.DAO.UserDao;
-import com.example.springgreetingdemo2.model.Login;
-import com.example.springgreetingdemo2.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+
+import java.security.Principal;
 
 @Controller
 public class LoginController {
-    @GetMapping("/home")
-    public ModelAndView home() {
-        ModelAndView modelAndView = new ModelAndView("/home");
-        modelAndView.addObject("login", new  Login());
-        return modelAndView;
-    }
-    @PostMapping("/login")
-    public ModelAndView login(@ModelAttribute("login") Login login) {
-        User user = UserDao.checkLogin(login);
-        ModelAndView modelAndView ;
-        if (user == null){
-            modelAndView  = new ModelAndView("/error");
-        }else {
-            modelAndView = new ModelAndView("/user");
-            modelAndView.addObject("user", user);
-        }
-        return modelAndView;
 
+    @GetMapping("/")
+    public ModelAndView index() {
+        return new ModelAndView("/index");
     }
 
+    @GetMapping("/user")
+    public ModelAndView user(Principal principal) {
+        System.out.println(principal.getName());
+        return new ModelAndView("/user");
+    }
+
+
+    @GetMapping("/admin")
+    public ModelAndView admin() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        System.out.println(context.getAuthentication().getName());
+        return new ModelAndView("/admin");
+    }
 }
