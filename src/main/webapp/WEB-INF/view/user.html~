@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
-<head th:replace="layout :: head">
-    <title>Admin Dashboard</title>
+<head th:replace="layout :: head"  >
+    <meta charset="UTF-8">
+    <title>User Dashboard</title>
 </head>
 <body>
 
@@ -16,33 +17,30 @@
     </a>
 
     <div class="card" style="max-width: 600px; margin: 0 auto; padding: 40px; text-align: center;">
-        <div style="font-size: 50px; margin-bottom: 20px;">🛡️</div>
+        <div style="font-size: 50px; margin-bottom: 20px;">👤</div>
         <h1 style="font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 700; margin-top: 0; margin-bottom: 10px;">
-            Admin Control Center
+            User Space
         </h1>
         <p style="color: var(--text-secondary); margin-bottom: 30px;">
-            Welcome to the administrator area. You have full access to manage all posts.
+            Welcome to your personal dashboard. Here are your account details.
         </p>
 
         <div style="background: rgba(15, 23, 42, 0.4); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; text-align: left; margin-bottom: 30px;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
                 <span style="color: var(--text-secondary);">Username:</span>
-                <strong sec:authentication="name">admin</strong>
+                <strong sec:authentication="name">user</strong>
             </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
                 <span style="color: var(--text-secondary);">Role:</span>
-                <span class="badge badge-role" style="background: rgba(168, 85, 247, 0.15); color: var(--accent-secondary); border-color: rgba(168, 85, 247, 0.3);">ROLE_ADMIN</span>
+                <span class="badge badge-role">ROLE_USER</span>
             </div>
             <div style="display: flex; justify-content: space-between;">
-                <span style="color: var(--text-secondary);">Access Level:</span>
-                <span style="color: var(--accent-secondary); font-weight: 600;">Super Administrator</span>
+                <span style="color: var(--text-secondary);">Status:</span>
+                <span style="color: var(--success-color); font-weight: 600;">Active</span>
             </div>
         </div>
 
-        <div style="display: flex; gap: 10px;">
-            <a href="/blog/create" class="btn btn-primary" style="flex: 1;">Create Article</a>
-            <a href="/blog" class="btn btn-secondary" style="flex: 1;">Manage Articles</a>
-        </div>
+        <a href="/blog/create" class="btn btn-primary" style="width: 100%; box-sizing: border-box;">Create a New Article</a>
     </div>
 </main>
 

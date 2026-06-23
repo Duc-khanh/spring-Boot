@@ -1,9 +1,26 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Error</title>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="layout :: head">
+    <title>Error - DevBlog</title>
 </head>
 <body>
-<h1>Login error</h1>
+
+<header th:replace="layout :: header"></header>
+
+<main class="container" style="text-align: center; padding: 100px 20px;">
+    <div class="card" style="max-width: 500px; margin: 0 auto; padding: 55px 30px;">
+        <div style="font-size: 60px; margin-bottom: 20px;">⚠️</div>
+        <h1 style="font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 700; color: var(--danger-color); margin-top: 0; margin-bottom: 10px;">
+            An Error Occurred
+        </h1>
+        <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 30px;">
+            Something went wrong. The requested resource was not found, or you do not have permission to view it.
+        </p>
+        <a href="/blog" class="btn btn-primary">Return to Blog</a>
+    </div>
+</main>
+
+<footer th:replace="layout :: footer"></footer>
+
 </body>
 </html>

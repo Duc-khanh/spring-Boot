@@ -2,30 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Spring Security Example</title>
+<head th:replace="layout :: head">
+    <title>Welcome - DevBlog Portal</title>
 </head>
 <body>
-<h2>Spring Security Example</h2>
-<hr/>
-<h3>
-    Welcome !
-    <div sec:authorize="isAuthenticated()">
-        <span sec:authentication="principal.username"></span>
+
+<header th:replace="layout :: header"></header>
+
+<main class="container" style="text-align: center; padding: 100px 20px;">
+    <div class="card" style="max-width: 600px; margin: 0 auto; padding: 50px 30px;">
+        <h1 style="font-family: 'Outfit', sans-serif; font-size: 42px; font-weight: 700; margin-top: 0; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1.2;">
+            Welcome to DevBlog
+        </h1>
+        <p style="color: var(--text-secondary); font-size: 16px; line-height: 1.6; margin: 20px 0 40px 0;">
+            A premium sharing platform for developers. Read interesting articles from fellow engineers or log in to share your own technical discoveries.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 16px; max-width: 280px; margin: 0 auto;">
+            <a href="/blog" class="btn btn-primary" style="padding: 14px; font-size: 16px;">
+                Explore Articles
+            </a>
+            
+            <div sec:authorize="isAnonymous()">
+                <a href="/login" class="btn btn-secondary" style="padding: 14px; font-size: 16px; width: 100%; box-sizing: border-box;">
+                    Sign In to Write
+                </a>
+            </div>
+
+            <div sec:authorize="isAuthenticated()">
+                <div style="margin-top: 10px; font-size: 14px; color: var(--text-secondary);">
+                    Logged in as: <strong style="color: var(--accent-primary);" sec:authentication="name">User</strong>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center;">
+                    <a sec:authorize="hasRole('USER')" href="/user" class="btn btn-secondary btn-small">User Panel</a>
+                    <a sec:authorize="hasRole('ADMIN')" href="/admin" class="btn btn-secondary btn-small">Admin Panel</a>
+                </div>
+            </div>
+        </div>
     </div>
-</h3>
-<div sec:authorize="isAnonymous()">
-    Login as <a th:href="@{/user}">User</a> or <a th:href="@{/admin}">Admin</a>
-</div>
-<div sec:authorize="isAuthenticated()">
-    <div sec:authorize="hasRole('USER')">
-        <a th:href="@{/user}">My Profile</a>
-    </div>
-    <div sec:authorize="hasRole('ADMIN')">
-        <a th:href="@{/admin}">My Profile</a>
-    </div>
-    <a th:href="@{/logout}">Logout</a>
-</div>
+</main>
+
+<footer th:replace="layout :: footer"></footer>
+
 </body>
 </html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head th:replace="layout :: head">
+    <title>Blog Feed</title>
+</head>
+<body>
+
+<header th:replace="layout :: header"></header>
+
+<main class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+        <h1 style="font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 700; margin: 0;">Featured Articles</h1>
+        <div sec:authorize="isAnonymous()">
+            <span style="color: var(--text-secondary); font-size: 14px;">Sign in to publish your own articles.</span>
+        </div>
+    </div>
+
+    <!-- Empty State if no blogs -->
+    <div th:if="${#lists.isEmpty(blogs)}" class="card empty-state">
+        <div class="empty-icon">📝</div>
+        <h3>No articles found</h3>
+        <p>Be the first one to write a masterpiece!</p>
+        <div sec:authorize="isAuthenticated()">
+            <a href="/blog/create" class="btn btn-primary">Write a Post</a>
+        </div>
+    </div>
+
+    <!-- Blog Posts Loop -->
+    <div th:each="blog : ${blogs}" class="card">
+        <div class="blog-header">
+            <div class="blog-meta">
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <th:block th:text="${blog.author}"></th:block>
+                </span>
+                <span>•</span>
+                <span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <th:block th:text="${blog.dateCreated}"></th:block>
+                </span>
+            </div>
+            <h2 class="blog-title">
+                <a th:href="@{/blog/view/{id}(id=${blog.id})}" th:text="${blog.title}">Blog Title</a>
+            </h2>
+        </div>
+        <p class="blog-excerpt" th:text="${blog.content.length() > 150 ? blog.content.substring(0, 150) + '...' : blog.content}">
+            Blog content excerpt goes here...
+        </p>
+        
+        <div class="blog-actions">
+            <a th:href="@{/blog/view/{id}(id=${blog.id})}" class="btn btn-secondary btn-small">Read Article</a>
+            
+            <!-- Actions visible only to logged-in users -->
+            <div sec:authorize="isAuthenticated()" class="action-group">
+                <a th:href="@{/blog/edit/{id}(id=${blog.id})}" class="btn btn-secondary btn-small" style="color: var(--accent-primary);">Edit</a>
+                <a th:href="@{/blog/delete/{id}(id=${blog.id})}" class="btn btn-danger btn-small" 
+                   onclick="return confirm('Are you sure you want to delete this blog post?');">Delete</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="layout :: footer"></footer>
+
+</body>
+</html>

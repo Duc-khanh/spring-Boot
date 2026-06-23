@@ -1,16 +1,14 @@
 package com.example.springgreetingdemo2.security;
 
-
-
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
@@ -19,28 +17,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .withUser("admin").password("{noop}12345").roles("ADMIN");
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests()
+        http.authorizeRequests()
                 .antMatchers("/", "/blog", "/blog/view/**").permitAll()
-                .antMatchers("/blog/create",
-                        "/blog/edit/**",
-                        "/blog/delete/**")
-                .authenticated()
-                .requestMatchers("/").permitAll()
-                .requestMatchers("/user**").hasRole("USER")
-                .requestMatchers("/admin**").hasRole("ADMIN")
+                .antMatchers("/blog/create/**", "/blog/edit/**", "/blog/delete/**", "/blog/save/**", "/blog/update/**").authenticated()
+                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .and()
                 .formLogin()
+                .defaultSuccessUrl("/blog", true)
                 .and()
-                .csrf().disable()
                 .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
-
-
-
-
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/blog")
+                .and()
+                .csrf().disable();
     }
-
 }

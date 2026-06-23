@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head th:replace="layout :: head">
+    <title>Create Post</title>
+</head>
+<body>
+
+<header th:replace="layout :: header"></header>
+
+<main class="container">
+    <a href="/blog" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Cancel and return
+    </a>
+
+    <div class="card" style="max-width: 700px; margin: 0 auto; padding: 40px;">
+        <h1 style="font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 700; margin-top: 0; margin-bottom: 30px;">
+            Create New Article
+        </h1>
+
+        <form th:action="@{/blog/save}" th:object="${blog}" method="post">
+            <div class="form-group">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" th:field="*{title}" placeholder="Enter a catchy title..." required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="author">Author</label>
+                <!-- Pre-fill with the logged-in username, but let them edit it if they want -->
+                <input class="form-control" type="text" id="author" th:field="*{author}" 
+                       th:value="${#authentication.name}" placeholder="Your name..." required />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="content">Content</label>
+                <textarea class="form-control" id="content" th:field="*{content}" placeholder="Write your thoughts..." required></textarea>
+            </div>
+
+            <div class="form-actions">
+                <a href="/blog" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">Publish Article</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer th:replace="layout :: footer"></footer>
+
+<script>
+    // Autofill author name with the logged-in user if it is empty
+    document.addEventListener("DOMContentLoaded", function() {
+        const authorField = document.getElementById("author");
+        if (authorField && !authorField.value) {
+            // Thymeleaf th:value works, but as a backup or if the field needs initialization:
+            const nameEl = document.querySelector(".nav-username");
+            if (nameEl) {
+                authorField.value = nameEl.textContent.trim();
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
