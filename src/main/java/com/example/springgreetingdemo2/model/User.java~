@@ -1,2 +1,10 @@
-package com.example.springgreetingdemo2.model;public class User {
+package com.example.springgreetingdemo2.model;
+
+public class User {
+    private String email;
+    private String password;
+
+    public User() {
+    }
+    
 }

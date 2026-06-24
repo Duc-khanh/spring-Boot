@@ -1,34 +1,58 @@
 package com.example.springgreetingdemo2.Controller;
 
+import com.example.springgreetingdemo2.model.User;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-
-
-import java.security.Principal;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
+@SessionAttributes("user")
 public class LoginController {
-
-    @GetMapping("/")
-    public ModelAndView index() {
-        return new ModelAndView("/index");
+    @ModelAttribute("user")
+    public User setUpUserForm() {
+        return new User();
     }
-
-    @GetMapping("/user")
-    public ModelAndView user(Principal principal) {
-        System.out.println(principal.getName());
-        return new ModelAndView("/user");
+    @GetMapping("/login")
+    public String Index(@CookieValue(value = "setUser", defaultValue = "") String setUser , Model model) {
+        Cookie cookie = new Cookie("setUser", setUser);
+        model.addAttribute("cookieValue", cookie);
+        return "login";
     }
+    @PostMapping("/doLogin")
+    public String doLogin(@ModelAttribute("user") User user, Model model,
+                          @CookieValue(value = "setUser", defaultValue = "") String setUser,
+                          HttpServletResponse response, HttpServletRequest request) {
+        if (user.getEmail().equals("admin@gmail.com")
+                && user.getPassword().equals("123456")) {
+            if (user.getEmail() != null) {
+                setUser = user.getEmail();
+            }
 
 
-    @GetMapping("/admin")
-    public ModelAndView admin() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        System.out.println(context.getAuthentication().getName());
-        return new ModelAndView("/admin");
+            Cookie cookie = new Cookie("setUser", setUser);
+            cookie.setMaxAge(24 * 60 * 60);
+            response.addCookie(cookie);
+
+
+            Cookie[] cookies = request.getCookies();
+            for (Cookie ck : cookies) {
+                if (!ck.getName().equals("setUser")) {
+                    ck.setValue("");
+                }
+                model.addAttribute("cookieValue", ck);
+            }
+            model.addAttribute("message", "Login success. Welcome!");
+        } else {
+            user.setEmail("");
+            Cookie cookie = new Cookie("setUser", setUser);
+            model.addAttribute("cookieValue", cookie);
+            model.addAttribute("message", "Login failed. Try again.");
+        }
+        return "login";
     }
 }
+

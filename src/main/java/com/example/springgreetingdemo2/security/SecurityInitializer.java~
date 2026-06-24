@@ -1,4 +1,0 @@
-package com.example.springgreetingdemo2.security;
-
-public class SecurityInitializer {
-}
