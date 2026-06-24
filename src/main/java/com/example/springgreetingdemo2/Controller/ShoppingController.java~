@@ -1,0 +1,4 @@
+package com.example.springgreetingdemo2.Controller;
+
+public class ShoppingController {
+}
